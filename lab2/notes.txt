@@ -1,0 +1,30 @@
+f, g: N -> N
+
+1.
+f(n) at O(g(n)) <-> Ex(n0 in N)Ex(a)All(n >= n0) f(n) <= a*g(n)
+                <-> Ex(a,b)All(n) f(n) <= a*g(n) + b
+
+All(n < n0) f(n) <= f(n0) bo f(n) to funkcja niemalejąca
+b = f(n0) -> Ex(a,b)All(n) f(n) <= a*g(n) + f(n0)
+
+2.
+Ex(a,b)All(n) f(n) <= a*g(n) + f(n0) <-> Ex(n0 in N)Ex(a')All(n >= n0) f(n) <= a' * g(n)
+Jakie będzie n0 i a'?
+
+Ex(n0) g(n0) >= 1
+All(n >= n0) g(n0) <= g(n)
+a' = a + b
+(a+b) * g(n) = a*g(n) + b*g(n) >= a*g(n) + b
+n0 jest dowolne
+
+3.
+2*n^2 + 1 at O(n^2)
+
+4.
+2*x^2 + 3*x + 1 at O(n^2)
+n0 = 3 -> 2*x^2 >= 3*x + 1
+
+Ex(x0)Ex(a)All(x >= x0) a*x^2 >= 2*x^2 + 3x + 1
+2*x^2 >= 3*x + 1 -> 2*x^2 + 2x^2 >= 2*x^2 + 3x + 1 ->
+   -> 4*x^2 >= 2*x^2 + 3x + 1
+a = 4, n0 = 3
