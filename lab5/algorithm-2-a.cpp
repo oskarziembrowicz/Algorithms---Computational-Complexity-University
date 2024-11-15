@@ -3,6 +3,8 @@
 
 using namespace std;
 
+// TAKES TOO LONG
+
 struct Noble {
     char initial;
     int number_of_peasants;
@@ -137,6 +139,8 @@ int main() {
     }
 
     // Sorting nobles
+
+    nobles = mergeSortNobles(nobles, 0, nobles.size()-1);
 
     // Output section
 
