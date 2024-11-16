@@ -39,22 +39,57 @@ vector<int> merge(vector<int> left, vector<int> right) {
     return merged;
 }
 
-vector<int> mergeSort(vector<int> vec, int start, int end) {
-    if (start == end) {
-        vector<int> single = {vec[start]};
-        return single;
+void mergeSort(vector<int>& vec, int start, int end) {
+    if (start >= end) {
+        return;
     }
 
-    int mid = (start + end) / 2;
-    vector<int> left = mergeSort(vec, start, mid);
-    vector<int> right = mergeSort(vec, mid+1, end);
+    // Calculating the mid element index
+    int mid = start + (end-start)/2;
+    mergeSort(vec, start, mid);
+    mergeSort(vec, mid+1, end);
+    
+    // -------
+    // Merging
+    //--------
 
-    return merge(left, right);
+    // Creating temp vectors
+    int l_size = mid + 1 - start;
+    int r_size = end - mid;
+    vector<int> left(l_size), right(r_size);
+
+    for (int i=0; i<l_size; i++) {
+        left[i] = vec[start+i];
+    }
+    for (int i=0; i<r_size; i++) {
+        right[i] = vec[mid+1+i];
+    }
+
+    int l_iter = 0, r_iter = 0, v_iter = start;
+
+    // Merge vectors
+    while(l_iter < l_size && r_iter < r_size) {
+        if (left[l_iter] <= right[r_iter]) {
+            vec[v_iter] = left[l_iter++];
+        } else {
+            vec[v_iter] = right[r_iter++];
+        }
+        v_iter++;
+    }
+
+    // Merge the rest
+    while (l_iter < l_size) {
+        vec[v_iter++] = left[l_iter++];
+    }
+    while (r_iter < r_size) {
+        vec[v_iter++] = right[r_iter++];
+    }
 }
 
 int main() {
     vector<int> numbers = {915, 960, 152, 514, 1325, 900, 1452, 637, 1085, 1282};
-    for (int e : mergeSort(numbers, 0, numbers.size()-1)) {
+    mergeSort(numbers, 0, numbers.size()-1);
+    for (int e : numbers) {
         cout << e << " ";
     }
     cout << "\n";

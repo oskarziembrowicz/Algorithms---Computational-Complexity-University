@@ -3,10 +3,6 @@
 
 using namespace std;
 
-// THIS IS QUICKER BUT STILL A BIT TOO SLOW
-// OUT OF MEMORY TOO
-
-// NEW MERGE SORT SOLVES MEMORY PROBLEM
 // STILL A LITTLE TOO SLOW
 
 struct Noble {
@@ -24,108 +20,51 @@ ALGORITHMS
 - merge sort
 */
 
-vector<Noble> mergeNobles(vector<Noble> left, vector<Noble> right) {
-    vector<Noble> merged;
-
-    int l_iter = 0;
-    int r_iter = 0;
-
-    // Merging two vectors
-    while (l_iter < left.size() && r_iter < right.size()) {
-        if (left[l_iter].initial <= right[r_iter].initial) {
-            merged.push_back(left[l_iter++]);
-        } else {
-            merged.push_back(right[r_iter++]);
-        }
-    }
-
-    // Adding the remaining elements
-    if (l_iter == left.size()) {
-        while (r_iter < right.size()) {
-            merged.push_back(right[r_iter++]);
-        }
-    } else {
-        while (l_iter < left.size()) {
-            merged.push_back(left[l_iter++]);
-        }
-    }
-
-    return merged;
-}
-
-void merge(vector<Noble>& arr, int left, 
-                     int mid, int right)
-{
-    int n1 = mid - left + 1;
-    int n2 = right - mid;
-
-    // Create temp vectors
-    vector<Noble> L(n1), R(n2);
-
-    // Copy data to temp vectors L[] and R[]
-    for (int i = 0; i < n1; i++)
-        L[i] = arr[left + i];
-    for (int j = 0; j < n2; j++)
-        R[j] = arr[mid + 1 + j];
-
-    int i = 0, j = 0;
-    int k = left;
-
-    // Merge the temp vectors back 
-    // into arr[left..right]
-    while (i < n1 && j < n2) {
-        if (L[i].initial <= R[j].initial) {
-            arr[k] = L[i];
-            i++;
-        }
-        else {
-            arr[k] = R[j];
-            j++;
-        }
-        k++;
-    }
-
-    // Copy the remaining elements of L[], 
-    // if there are any
-    while (i < n1) {
-        arr[k] = L[i];
-        i++;
-        k++;
-    }
-
-    // Copy the remaining elements of R[], 
-    // if there are any
-    while (j < n2) {
-        arr[k] = R[j];
-        j++;
-        k++;
-    }
-}
-
-// begin is for left index and end is right index
-// of the sub-array of arr to be sorted
-void mergeSort(vector<Noble>& arr, int left, int right)
-{
-    if (left >= right)
+void mergeSortNobles(vector<Noble>& vec, int start, int end) {
+    if (start >= end) {
         return;
-
-    int mid = left + (right - left) / 2;
-    mergeSort(arr, left, mid);
-    mergeSort(arr, mid + 1, right);
-    merge(arr, left, mid, right);
-}
-
-vector<Noble> mergeSortNobles(vector<Noble> vec, int start, int end) {
-    if (start == end) {
-        vector<Noble> single = {vec[start]};
-        return single;
     }
 
-    int mid = (start + end) / 2;
-    vector<Noble> left = mergeSortNobles(vec, start, mid);
-    vector<Noble> right = mergeSortNobles(vec, mid+1, end);
+    // Calculating the mid element index
+    int mid = start + (end-start)/2;
+    mergeSortNobles(vec, start, mid);
+    mergeSortNobles(vec, mid+1, end);
+    
+    // -------
+    // Merging
+    //--------
 
-    return mergeNobles(left, right);
+    // Creating temp vectors
+    int l_size = mid + 1 - start;
+    int r_size = end - mid;
+    vector<Noble> left(l_size), right(r_size);
+
+    for (int i=0; i<l_size; i++) {
+        left[i] = vec[start+i];
+    }
+    for (int i=0; i<r_size; i++) {
+        right[i] = vec[mid+1+i];
+    }
+
+    int l_iter = 0, r_iter = 0, v_iter = start;
+
+    // Merge vectors
+    while(l_iter < l_size && r_iter < r_size) {
+        if (left[l_iter].initial <= right[r_iter].initial) {
+            vec[v_iter] = left[l_iter++];
+        } else {
+            vec[v_iter] = right[r_iter++];
+        }
+        v_iter++;
+    }
+
+    // Merge the rest
+    while (l_iter < l_size) {
+        vec[v_iter++] = left[l_iter++];
+    }
+    while (r_iter < r_size) {
+        vec[v_iter++] = right[r_iter++];
+    }
 }
 
 void quickSort(vector<int>& vec, int start, int end) {
@@ -197,7 +136,7 @@ int main() {
     //---------------
 
     // nobles = mergeSortNobles(nobles, 0, nobles.size()-1);
-    mergeSort(nobles, 0, nobles.size()-1);
+    mergeSortNobles(nobles, 0, nobles.size()-1);
 
     // ======================================
     // ======================================
