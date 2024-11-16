@@ -50,18 +50,26 @@ void quickSort1(vector<int>& vec, int start, int end) {
     }
 
     int size = vec.size();
-
     int pivot = vec[end];
-    for (int i=0; i<size; i++) {
-        if (vec[i] > pivot) {
+    // Set swapping index
+    int i = start - 1;
 
+    for (int j=start; j<end; j++) {
+        if (vec[j] < pivot) {
+            swap(vec[++i], vec[j]);
         }
     }
+    // Move pivot (vec[end]) to its correct position
+    swap(vec[end], vec[++i]);
+
+    // Now call quickSort for subvectors
+    quickSort1(vec, start, i-1);
+    quickSort1(vec, i+1, end);
 }
 
 int main() {
     vector<int> numbers = {915, 960, 152, 514, 1325, 900, 1452, 637, 1085, 1282};
-    quickSort(numbers, 0, numbers.size()-1);
+    quickSort1(numbers, 0, numbers.size()-1);
     for (int n : numbers) {
         cout << n << " ";
     }
