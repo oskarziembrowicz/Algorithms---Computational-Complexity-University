@@ -1,9 +1,13 @@
 #include <iostream>
 #include <vector>
+#include <algorithm> // JUST FOR TESTING
 
 using namespace std;
 
-// STILL A LITTLE TOO SLOW
+// STILL A LITTLE TOO SLOW (not changed)
+// PROBLEM IN SORTING PEASANTS
+
+const int N_OF_LETTERS = int('Z')-int('A')+1;
 
 struct Noble {
     char initial;
@@ -19,6 +23,30 @@ ALGORITHMS
 - count sort
 - merge sort
 */
+
+int charToAsciiArr(char c) {
+    return int(c) - 65;
+}
+
+void bucketSortNobles(vector<Noble>& vec) {
+    // Create empty buckets
+    vector<vector<Noble>> buckets(N_OF_LETTERS);
+
+    // Put vector elements in different buckets based on ascii
+    for (int i = 0; i < vec.size(); i++) {
+        int charIndex = charToAsciiArr(vec[i].initial);
+        buckets[charIndex].push_back(vec[i]);
+    }
+
+    // Concatenate all buckets into vec
+    int index = 0;
+    for (int i = 0; i < N_OF_LETTERS; i++) {
+        for (int j = 0; j < buckets[i].size(); j++) {
+            vec[index++] = buckets[i][j];
+        }
+    }
+    return;
+}
 
 void mergeSortNobles(vector<Noble>& vec, int start, int end) {
     if (start >= end) {
@@ -126,7 +154,9 @@ int main() {
     // ----------------
 
     for (int i=0; i<nobles.size(); i++) {
-        quickSort(nobles[i].peasants, 0, nobles[i].peasants.size()-1);
+        // quickSort(nobles[i].peasants, 0, nobles[i].peasants.size()-1);
+        // TEST:
+        sort(nobles[i].peasants.begin(), nobles[i].peasants.end());
     }
     // ======================================
     // ======================================
@@ -135,7 +165,8 @@ int main() {
     //---------------
 
     // nobles = mergeSortNobles(nobles, 0, nobles.size()-1);
-    mergeSortNobles(nobles, 0, nobles.size()-1);
+    // mergeSortNobles(nobles, 0, nobles.size()-1);
+    bucketSortNobles(nobles);
 
     // ======================================
     // ======================================
