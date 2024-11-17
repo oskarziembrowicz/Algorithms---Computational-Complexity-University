@@ -4,7 +4,7 @@
 
 using namespace std;
 
-// STILL A LITTLE TOO SLOW (not changed)
+// STILL A LITTLE TOO SLOW
 // PROBLEM IN SORTING PEASANTS
 
 const int N_OF_LETTERS = int('Z')-int('A')+1;
@@ -17,11 +17,10 @@ struct Noble {
 
 /*
 ALGORITHMS
-- count sort (families)
-- bucket sort
-- quick sort
-- count sort
-- merge sort
+- count sort -- very close (memory?)
+- bucket sort -- best for nobles
+- quick sort -- too slow + memory
+- merge sort -- quite close (no memory problems)
 */
 
 int charToAsciiArr(char c) {
@@ -48,53 +47,6 @@ void bucketSortNobles(vector<Noble>& vec) {
     return;
 }
 
-void mergeSortNobles(vector<Noble>& vec, int start, int end) {
-    if (start >= end) {
-        return;
-    }
-
-    // Calculating the mid element index
-    int mid = start + (end-start)/2;
-    mergeSortNobles(vec, start, mid);
-    mergeSortNobles(vec, mid+1, end);
-    
-    // -------
-    // Merging
-    //--------
-
-    // Creating temp vectors
-    int l_size = mid + 1 - start;
-    int r_size = end - mid;
-    vector<Noble> left(l_size), right(r_size);
-
-    for (int i=0; i<l_size; i++) {
-        left[i] = vec[start+i];
-    }
-    for (int i=0; i<r_size; i++) {
-        right[i] = vec[mid+1+i];
-    }
-
-    int l_iter = 0, r_iter = 0, v_iter = start;
-
-    // Merge vectors
-    while(l_iter < l_size && r_iter < r_size) {
-        if (left[l_iter].initial <= right[r_iter].initial) {
-            vec[v_iter] = left[l_iter++];
-        } else {
-            vec[v_iter] = right[r_iter++];
-        }
-        v_iter++;
-    }
-
-    // Merge the rest
-    while (l_iter < l_size) {
-        vec[v_iter++] = left[l_iter++];
-    }
-    while (r_iter < r_size) {
-        vec[v_iter++] = right[r_iter++];
-    }
-}
-
 void quickSort(vector<int>& vec, int start, int end) {
     if (start >= end) {
         // There are less than 2 elements
@@ -116,6 +68,32 @@ void quickSort(vector<int>& vec, int start, int end) {
     // Now call quickSort for subvectors
     quickSort(vec, start, swapIter-1);
     quickSort(vec, swapIter+1, end);
+}
+
+void countSortUnstable(vector<int>& inputVector) {
+    int size = inputVector.size();
+    int maximum = 0;
+
+    // Calculate maximum from input vector
+    for(int i=0; i<size; i++) {
+        maximum = max(inputVector[i], maximum);
+    }
+
+    // Initiate count vector of size maximum+1 with zeros
+    vector<int> countVector(maximum+1, 0);
+
+    // Update count vector
+    for (int i=0; i<size; i++) {
+        countVector[inputVector[i]]++;
+    }
+
+    // Add elements to input vector in order
+    int index = 0;
+    for (int i=0; i<maximum+1; i++) {
+        while (countVector[i]-- > 0) {
+            inputVector[index++] = i;
+        }
+    }
 }
 
 int main() {
@@ -155,8 +133,9 @@ int main() {
 
     for (int i=0; i<nobles.size(); i++) {
         // quickSort(nobles[i].peasants, 0, nobles[i].peasants.size()-1);
-        // TEST:
-        sort(nobles[i].peasants.begin(), nobles[i].peasants.end());
+        // nobles[i].peasants = countSort(nobles[i].peasants);
+        // mergeSort(nobles[i].peasants, 0, nobles[i].peasants.size()-1);
+        countSortUnstable(nobles[i].peasants);
     }
     // ======================================
     // ======================================
