@@ -3,75 +3,35 @@
 
 using namespace std;
 
-int partition(vector<int>& arr, int low, int high) {
-  
-    // Choose the pivot
-    int pivot = arr[high];
-  
-    // Index of smaller element and indicates 
-    // the right position of pivot found so far
-    int i = low - 1;
-
-    // Traverse arr[;ow..high] and move all smaller
-    // elements on left side. Elements from low to 
-    // i are smaller after every iteration
-    for (int j = low; j <= high - 1; j++) {
-        if (arr[j] < pivot) {
-            i++;
-            swap(arr[i], arr[j]);
-        }
-    }
-    
-    // Move pivot after smaller elements and
-    // return its position
-    swap(arr[i + 1], arr[high]);  
-    return i + 1;
-}
-
-// The QuickSort function implementation
-void quickSort(vector<int>& arr, int low, int high) {
-  
-    if (low < high) {
-      
-        // pi is the partition return index of pivot
-        int pi = partition(arr, low, high);
-
-        // Recursion calls for smaller elements
-        // and greater or equals elements
-        quickSort(arr, low, pi - 1);
-        quickSort(arr, pi + 1, high);
-    }
-}
-
-void quickSort1(vector<int>& vec, int start, int end) {
+void quickSort(int* arr, int start, int end) {
     if (start >= end) {
         // There are less than 2 elements
         return;
     }
 
-    int size = vec.size();
-    int pivot = vec[end];
+    int pivot = arr[end];
     // Set swapping index
-    int i = start - 1;
+    int swapIter = start - 1;
 
     for (int j=start; j<end; j++) {
-        if (vec[j] < pivot) {
-            swap(vec[++i], vec[j]);
+        if (arr[j] < pivot) {
+            swap(arr[++swapIter], arr[j]);
         }
     }
-    // Move pivot (vec[end]) to its correct position
-    swap(vec[end], vec[++i]);
+    // Move pivot (arr[end]) to its correct position
+    swap(arr[end], arr[++swapIter]);
 
-    // Now call quickSort for subvectors
-    quickSort1(vec, start, i-1);
-    quickSort1(vec, i+1, end);
+    // Now call quickSort for subarrays
+    quickSort(arr, start, swapIter-1);
+    quickSort(arr, swapIter+1, end);
 }
 
 int main() {
-    vector<int> numbers = {915, 960, 152, 514, 1325, 900, 1452, 637, 1085, 1282};
-    quickSort1(numbers, 0, numbers.size()-1);
-    for (int n : numbers) {
-        cout << n << " ";
+    int size = 7;
+    int* numbers = new int[size] {671, 1564, 52, 1861, 681, 295, 721};
+    quickSort(numbers, 0, size-1);
+    for (int i=0; i<size; i++) {
+        cout << numbers[i] << " ";
     }
     cout << "\n";
 

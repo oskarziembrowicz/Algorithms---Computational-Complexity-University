@@ -65,23 +65,21 @@ void countSortUnstable(int* inputArray, int size) {
 }
 
 int main() {
+    ios_base::sync_with_stdio(false);
     // ======================================
     // -------------
     // Input section
     // -------------
 
     int numberOfNobles;
-    // cout << "Enter number of nobles: ";
     cin >> numberOfNobles;
     Noble* nobles = new Noble[numberOfNobles];
 
     for (int i=0; i<numberOfNobles; i++ ) {
-        // cout << "Enter initial of the noble and number of his pesants: ";
         cin >> nobles[i].initial >> nobles[i].number_of_peasants;
         nobles[i].peasants = new int[nobles[i].number_of_peasants];
         for (int j=0; j<nobles[i].number_of_peasants; j++) {
             int peasant;
-            // cout << "Enter peasant code: ";
             cin >> nobles[i].peasants[j];
         }
         // ==================================
@@ -125,6 +123,6 @@ int main() {
     delete[] nobles;
 
     // ======================================
-    
+
     return 0;
 }
