@@ -20,7 +20,7 @@ ALGORITHMS
 - count sort -- very close (memory?)
 - bucket sort -- best for nobles
 - quick sort -- too slow + memory
-- merge sort -- quite close (no memory problems)
+- merge sort -- quite close + memory
 */
 
 int charToAsciiArr(char c) {
@@ -33,6 +33,7 @@ void bucketSortNobles(vector<Noble>& vec) {
 
     // Put vector elements in different buckets based on ascii
     for (int i = 0; i < vec.size(); i++) {
+        
         int charIndex = charToAsciiArr(vec[i].initial);
         buckets[charIndex].push_back(vec[i]);
     }
@@ -47,28 +48,80 @@ void bucketSortNobles(vector<Noble>& vec) {
     return;
 }
 
-void quickSort(vector<int>& vec, int start, int end) {
-    if (start >= end) {
-        // There are less than 2 elements
-        return;
-    }
+// void quickSort(vector<int>& vec, int start, int end) {
+//     if (start >= end) {
+//         // There are less than 2 elements
+//         return;
+//     }
 
-    int pivot = vec[end];
-    // Set swapping index
-    int swapIter = start - 1;
+//     int pivot = vec[end];
+//     // Set swapping index
+//     int swapIter = start - 1;
 
-    for (int j=start; j<end; j++) {
-        if (vec[j] < pivot) {
-            swap(vec[++swapIter], vec[j]);
-        }
-    }
-    // Move pivot (vec[end]) to its correct position
-    swap(vec[end], vec[++swapIter]);
+//     for (int j=start; j<end; j++) {
+//         if (vec[j] < pivot) {
+//             swap(vec[++swapIter], vec[j]);
+//         }
+//     }
+//     // Move pivot (vec[end]) to its correct position
+//     swap(vec[end], vec[++swapIter]);
 
-    // Now call quickSort for subvectors
-    quickSort(vec, start, swapIter-1);
-    quickSort(vec, swapIter+1, end);
-}
+//     // Now call quickSort for subvectors
+//     quickSort(vec, start, swapIter-1);
+//     quickSort(vec, swapIter+1, end);
+// }
+
+// void insertionSort(vector<int>& bucket) {
+//     for (int i = 1; i < bucket.size(); ++i) {
+//         int key = bucket[i];
+//         int j = i - 1;
+//         while (j >= 0 && bucket[j] > key) {
+//             bucket[j + 1] = bucket[j];
+//             j--;
+//         }
+//         bucket[j + 1] = key;
+//     }
+// }
+
+// int numDigits(int number)
+// {
+//     int digits = 0;
+//     if (number < 0) digits = 1;
+//     while (number) {
+//         number /= 10;
+//         digits++;
+//     }
+//     return digits;
+// }
+
+// // Function to sort arr[] of size n using bucket sort
+// void bucketSort(vector<int> arr) {
+//     int n = arr.size();
+
+//     // 1) Create n empty buckets
+//     vector<vector<int>> b(6);
+
+//     // 2) Put array elements in different buckets
+//     for (int i = 0; i < n; i++) {
+//         int bi = numDigits(arr[i]);
+//         b[bi].push_back(arr[i]);
+//     }
+
+//     // 3) Sort individual buckets using insertion sort
+//     for (int i = 0; i < n; i++) {
+//         insertionSort(b[i]);
+//     }
+
+//     // 4) Concatenate all buckets into arr[]
+//     int index = 0;
+//     for (int i = 0; i < n; i++) {
+//         for (int j = 0; j < b[i].size(); j++) {
+//             arr[index++] = b[i][j];
+//             cout << arr[index-1] << " ";
+//         }
+//         cout << "\n";
+//     }
+// }
 
 void countSortUnstable(vector<int>& inputVector) {
     int size = inputVector.size();
@@ -93,7 +146,7 @@ void countSortUnstable(vector<int>& inputVector) {
         while (countVector[i]-- > 0) {
             inputVector[index++] = i;
         }
-    }
+    } 
 }
 
 int main() {
@@ -136,15 +189,15 @@ int main() {
         // nobles[i].peasants = countSort(nobles[i].peasants);
         // mergeSort(nobles[i].peasants, 0, nobles[i].peasants.size()-1);
         countSortUnstable(nobles[i].peasants);
+        // bucketSort(nobles[i].peasants);
     }
+
     // ======================================
     // ======================================
     // --------------
     // Sorting nobles
     //---------------
 
-    // nobles = mergeSortNobles(nobles, 0, nobles.size()-1);
-    // mergeSortNobles(nobles, 0, nobles.size()-1);
     bucketSortNobles(nobles);
 
     // ======================================

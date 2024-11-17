@@ -59,7 +59,7 @@ void countSortUnstable(vector<int>& inputVector) {
         while (countVector[i]-- > 0) {
             inputVector[index++] = i;
         }
-    }
+    } 
 }
 
 int main() {

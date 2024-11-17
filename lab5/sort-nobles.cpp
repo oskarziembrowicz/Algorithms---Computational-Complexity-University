@@ -60,10 +60,10 @@ vector<Noble> mergeSortNobles(vector<Noble> vec, int start, int end) {
 }
 
 int main() {
-    vector<Noble> nobles = {Noble('X'), Noble('Z'), Noble('X'), Noble('F'), Noble('E')};
-    for (Noble e : mergeSortNobles(nobles, 0, nobles.size()-1)) {
-        cout << e.initial << " ";
+    int* arr = new int[5];
+    // cout << arr[0];
+    if (arr[0]) {
+        cout << "true";
     }
-    cout << "\n";
     return 0;
 }
