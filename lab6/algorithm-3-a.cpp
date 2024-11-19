@@ -2,7 +2,7 @@
 
 using namespace std;
 
-// TECHNICALLY WORKING BUT MEMORY OUT OF BOUNDS
+// TECHNICALLY WORKING BUT MEMORY OUT OF BOUNDS IN ONE
 
 struct FertilizingData {
     int x1, x2, y1, y2;
@@ -64,7 +64,17 @@ void prefixSum(int** arr, int rows, int cols) {
 }
 
 int areaSum(int** prefixArray, int x1, int y1, int x2, int y2) {
-    return prefixArray[y2][x2] - prefixArray[y1-1][x2] - prefixArray[y2][x1-1] + prefixArray[y1-1][x1-1];
+    int prevInCol = 0, prevInRow = 0, prev = 0;
+    if (x1 > 0 && y1 > 0) {
+        prev = prefixArray[y1-1][x1-1];
+    }
+    if (x1 > 0) {
+        prevInCol = prefixArray[y2][x1-1];
+    }
+    if (y1 > 0) {
+        prevInRow = prefixArray[y1-1][x2];
+    }
+    return prefixArray[y2][x2] - prevInRow - prevInCol + prev;
 }
 
 int main() {
