@@ -23,17 +23,11 @@ void updateField(int** field, int x1, int y1, int x2, int y2, int amount) {
     }
 }
 
-void addToField(int** arr, int rows, int cols, int x1, int y1, int x2, int y2, int amount) {
+void addToFieldsPrefix(int** arr, int x1, int y1, int x2, int y2, int amount) {
     arr[y1][x1] += amount;
-    if (y2 < rows-1) {
-        arr[y2+1][x1] -= amount;
-    }
-    if (x2 < cols-1) {
-        arr[y1][x2+1] -= amount;
-    }
-    if (y2 < rows-1 && x2 < cols-1) {
-        arr[y2+1][x2+1] += amount;
-    }
+    arr[y2+1][x2+1] += amount;
+    arr[y2+1][x1] -= amount;
+    arr[y1][x2+1] -= amount;
 }
 
 void prefixSum(int** arr, int rows, int cols) {
@@ -90,8 +84,7 @@ int main() {
             int x1, x2, y1, y2, fertilizerAmount;
             cin >> x1 >> y1 >> x2 >> y2 >> fertilizerAmount;
 
-            addToField(field, fieldRows, fieldCols, x1, y1, x2, y2, fertilizerAmount);
-            // updateField(field, x1, y1, x2, y2, fertilizerAmount);
+            updateField(field, x1, y1, x2, y2, fertilizerAmount);
             // printField(field, fieldRows, fieldCols);
         }
 

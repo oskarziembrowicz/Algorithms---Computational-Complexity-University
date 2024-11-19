@@ -2,8 +2,7 @@
 
 using namespace std;
 
-// TECHNICALLY WORKING BUT MEMORY OUT OF BOUNDS IN ONE
-// TOO SLOW
+// WORKS UP TO COMMENTED
 
 void printField(int** field, int height, int width) {
     for (int i=0; i<height; i++) {
@@ -82,6 +81,7 @@ int main() {
         for (int j=0; j<fieldRows; j++) {
             field[j] = new int[fieldCols]();
         }
+        printField(field, fieldRows, fieldCols);
 
         // Get amount of updates to field
         int dataAmount;
@@ -89,40 +89,40 @@ int main() {
         for (int j=0; j<dataAmount; j++) {
             int x1, x2, y1, y2, fertilizerAmount;
             cin >> x1 >> y1 >> x2 >> y2 >> fertilizerAmount;
-
+            
             addToField(field, fieldRows, fieldCols, x1, y1, x2, y2, fertilizerAmount);
             // updateField(field, x1, y1, x2, y2, fertilizerAmount);
-            // printField(field, fieldRows, fieldCols);
+            printField(field, fieldRows, fieldCols);
         }
 
         // Calculate prefix sum for the updated field
         prefixSum(field, fieldRows, fieldCols);
-        // printField(field, fieldRows, fieldCols);
+        printField(field, fieldRows, fieldCols);
 
         // Get number of querys
-        int numberOfQuerys;
-        cin >> numberOfQuerys;
+        // int numberOfQuerys;
+        // cin >> numberOfQuerys;
 
-        int* output = new int[numberOfQuerys];
+        // int* output = new int[numberOfQuerys];
 
-        for (int j=0; j<numberOfQuerys; j++) {
-            // Query
-            int x1, y1, x2, y2;
-            cin >> x1 >> y1 >> x2 >> y2;
+        // for (int j=0; j<numberOfQuerys; j++) {
+        //     // Query
+        //     int x1, y1, x2, y2;
+        //     cin >> x1 >> y1 >> x2 >> y2;
 
-            output[j] = areaSum(field, x1, y1, x2, y2);
-            // cout << areaSum(field, x1, y1, x2, y2) << " " ;
-        }
+        //     output[j] = areaSum(field, x1, y1, x2, y2);
+        //     // cout << areaSum(field, x1, y1, x2, y2) << " " ;
+        // }
 
-        for (int j=0; j<numberOfQuerys; j++) {
-            cout << output[j] << " ";
-        }
-        cout << "\n";
+        // for (int j=0; j<numberOfQuerys; j++) {
+        //     cout << output[j] << " ";
+        // }
+        // cout << "\n";
 
         for (int j=0; j<fieldRows; j++) {
             delete[] field[j];
         }
-        delete[] output;
+        // delete[] output;
     }
 
     delete[] field;
