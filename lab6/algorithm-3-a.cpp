@@ -90,14 +90,14 @@ int main() {
             int x1, x2, y1, y2, fertilizerAmount;
             cin >> x1 >> y1 >> x2 >> y2 >> fertilizerAmount;
 
-            addToField(field, fieldRows, fieldCols, x1, y1, x2, y2, fertilizerAmount);
-            // updateField(field, x1, y1, x2, y2, fertilizerAmount);
+            // addToField(field, fieldRows, fieldCols, x1, y1, x2, y2, fertilizerAmount);
+            updateField(field, x1, y1, x2, y2, fertilizerAmount);
             // printField(field, fieldRows, fieldCols);
         }
 
         // Calculate prefix sum for the updated field
         prefixSum(field, fieldRows, fieldCols);
-        // printField(field, fieldRows, fieldCols);
+        printField(field, fieldRows, fieldCols);
 
         // Get number of querys
         int numberOfQuerys;
