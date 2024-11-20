@@ -3,8 +3,8 @@
 using namespace std;
 
 // GOOD TIME !!
-// SOMETIMES WRONG ANSWER
-// MEMORY BREACH
+// NO MEMORY BREACH !
+// 4/7 WRONG ANSWER
 
 void printField(int** field, int height, int width) {
     for (int i=0; i<height; i++) {
@@ -17,6 +17,12 @@ void printField(int** field, int height, int width) {
 }
 
 void addToField(int** arr, int rows, int cols, int x1, int y1, int x2, int y2, int amount) {
+    // Additional checks
+    if (x1 < 0 || y1 < 0 || x2 < 0 || y2 < 0) {
+        // Error
+        return;
+    }
+    // -------------------
     arr[y1][x1] += amount;
     if (y2 < rows-1) {
         arr[y2+1][x1] -= amount;
@@ -47,15 +53,21 @@ void prefixSum(int** arr, int rows, int cols) {
     }
 }
 
-int areaSum(int** prefixArray, int x1, int y1, int x2, int y2) {
+int areaSum(int** prefixArray, int rows, int cols, int x1, int y1, int x2, int y2) {
+    // Additional checks
+    if (x2 < 0 || y2 < 0 || x2 > cols || y2 > rows) {
+        // Error
+        return 0;
+    }
+    // -------------------
     int prevInCol = 0, prevInRow = 0, prev = 0;
-    if (x1 > 0 && y1 > 0) {
+    if (x1 > 0 && y1 > 0 && x1 < cols+1 && y1 < rows+1) {
         prev = prefixArray[y1-1][x1-1];
     }
-    if (x1 > 0) {
+    if (x1 > 0 && x1 < cols+1) {
         prevInCol = prefixArray[y2][x1-1];
     }
-    if (y1 > 0) {
+    if (y1 > 0 && y1 < rows+1) {
         prevInRow = prefixArray[y1-1][x2];
     }
     return prefixArray[y2][x2] - prevInRow - prevInCol + prev;
@@ -104,7 +116,7 @@ int main() {
             int x1, y1, x2, y2;
             cin >> x1 >> y1 >> x2 >> y2;
 
-            output[j] = areaSum(field, x1, y1, x2, y2);
+            output[j] = areaSum(field, fieldRows, fieldCols, x1, y1, x2, y2);
             // cout << areaSum(field, x1, y1, x2, y2) << " " ;
         }
 
