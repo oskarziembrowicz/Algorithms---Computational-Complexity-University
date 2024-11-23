@@ -74,7 +74,7 @@ void bucketSort(float* arr, int n) {
 
 
 int main() {
-    int size = 10;
+    int size = 9;
     float* arr = new float[size] {0.2, 0.11, 0.45, 0.432, 0.78, 0.900, 0.89435, 0.22, 0.1};
 
     bucketSort(arr, size);
