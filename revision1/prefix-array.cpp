@@ -29,6 +29,20 @@ void prefixSum(int** matrix, int rows, int cols) {
     }
 }
 
+int getAreaSum(int** prefixMatrix, int x1, int y1, int x2, int y2) {
+    int upper = 0, left = 0, diagonal = 0;
+    if (x1 > 0) {
+        left = prefixMatrix[y2][x1-1];
+    }
+    if (y1 > 0) {
+        upper = prefixMatrix[y1-1][x2];
+    }
+    if (x1 > 0 && y1 > 0) {
+        diagonal = prefixMatrix[y1-1][x1-1];
+    }
+    return prefixMatrix[y2][x2] - left - upper + diagonal;
+}
+
 int main() {
     int rows = 3, cols = 3;
     int** matrix = new int*[rows];
@@ -39,11 +53,13 @@ int main() {
     matrix[1] = new int[cols] {5, 10, 20};
     matrix[2] = new int[cols] {2, 4, 6};
 
-    printMatrix(matrix, rows, cols);
+    // printMatrix(matrix, rows, cols);
 
     prefixSum(matrix, rows, cols);
 
-    printMatrix(matrix, rows, cols);
+    // printMatrix(matrix, rows, cols);
+
+    cout << getAreaSum(matrix, 1, 0, 2, 2) << "\n";     // Should be: 90
 
     return 0;
 }
