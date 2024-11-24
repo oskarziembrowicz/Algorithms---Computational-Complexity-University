@@ -43,23 +43,44 @@ int getAreaSum(int** prefixMatrix, int x1, int y1, int x2, int y2) {
     return prefixMatrix[y2][x2] - left - upper + diagonal;
 }
 
+void addToArea(int** matrix, int rows, int cols, int x1, int y1, int x2, int y2, int amount) {
+    matrix[y1][x1] += amount;
+    if (y2 < rows-1) {
+        matrix[y2+1][x1] -= amount;
+    }
+    if (x2 < cols-1) {
+        matrix[y1][x2+1] -= amount;
+    }
+    if (x2 < cols-1 && y2 < rows-1) {
+        matrix[y2+1][x2+1] += amount;
+    }
+}
+
 int main() {
-    int rows = 3, cols = 3;
+    int rows = 10, cols = 10;
     int** matrix = new int*[rows];
-    // for (int i=0; i<rows; i++) {
-    //     matrix[i] = new int[cols]();
-    // }
-    matrix[0] = new int[cols] {10, 20, 30};
-    matrix[1] = new int[cols] {5, 10, 20};
-    matrix[2] = new int[cols] {2, 4, 6};
+    for (int i=0; i<rows; i++) {
+        matrix[i] = new int[cols]();
+    }
+    // matrix[0] = new int[cols] {10, 20, 30};
+    // matrix[1] = new int[cols] {5, 10, 20};
+    // matrix[2] = new int[cols] {2, 4, 6};
 
     // printMatrix(matrix, rows, cols);
+
+    addToArea(matrix, rows, cols, 0, 0, 5, 5, 1);
+    addToArea(matrix, rows, cols, 5, 5, 9, 9, 1);
+    addToArea(matrix, rows, cols, 1, 1, 5, 9, 2);
+    addToArea(matrix, rows, cols, 6, 1, 9, 7, 2);
+
+    printMatrix(matrix, rows, cols);
 
     prefixSum(matrix, rows, cols);
+    printMatrix(matrix, rows, cols);
+    prefixSum(matrix, rows, cols);
+    printMatrix(matrix, rows, cols);
 
-    // printMatrix(matrix, rows, cols);
-
-    cout << getAreaSum(matrix, 1, 0, 2, 2) << "\n";     // Should be: 90
+    cout << getAreaSum(matrix, 2, 3, 2, 9) << "\n";     // Should be: 17
 
     return 0;
 }
