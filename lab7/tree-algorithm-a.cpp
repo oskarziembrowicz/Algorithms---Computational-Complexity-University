@@ -1,4 +1,5 @@
 #include <iostream>
+#include <climits>
 
 using namespace std;
 
@@ -73,6 +74,8 @@ Node getRating(Node* tree, int nodeIndex, int start, int end, int queryStart, in
 
 int main() {
     ios_base::sync_with_stdio(false);
+    cout.tie(nullptr);
+    cin.tie(nullptr);
 
     int numberOfQuerys, numberOfPeasants;
     cin >> numberOfQuerys >> numberOfPeasants;
