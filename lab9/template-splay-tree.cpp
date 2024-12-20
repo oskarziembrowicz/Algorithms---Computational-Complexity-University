@@ -32,11 +32,6 @@ private:
         Node* left;
         Node* right;
 
-        // Node(string key) {
-        //     this->key = key;
-        //     left = right = NULL;
-        // }
-
         Node(string key, T* value) {
             this->key = key;
             this->value = value;
@@ -128,32 +123,21 @@ private:
         }
 
         if (key < root->key) {
-            // cout << "Went left\n";
             if (root->left) {
-                // cout << "Went deep\n";
                 root->left = insert(root->left, key, value);
             } else {
                 root->left = new Node(key, value);
-                // cout << "Added\n";
-                // splay(root->left, key);
-                // return root->left;
             }
         } else if (key > root->key) {
-            // cout << "Went right\n";
             if (root->right) {
-                // cout << "Went deep\n";
                 root->right = insert(root->right, key, value);
             } else {
                 root->right = new Node(key, value);
-                // cout << "Added\n";
-                // Splay()
-                // return root->right;
             }
         } else {
             // Keys are equal
             // Add value
             *(root->value) = *(root->value) + *value;
-            // cout << "Value of equal keys: " << *(root->value) << "\n";
         }
         return splay(root, key);
     }
@@ -182,7 +166,6 @@ public:
         root = insert(root, key, value);
     }
 
-    // Leter change so that it returns the value
     T* find(string key) {
         root = find(root, key);
         return root->value;
@@ -207,6 +190,9 @@ int main() {
     peopleTree->printTree();
     cout << "\n";
 
+    Person* jim_data = peopleTree->find("Jim");
+    cout << *jim_data << "\n";
+
     // Int tree
     SplayTree<int>* integerTree = new SplayTree<int>();
     integerTree->insert("Five", new int(5));
@@ -217,9 +203,6 @@ int main() {
 
     integerTree->printTree();
     cout << "\n";
-
-    // Person* jim_data = tree->find("Jim");
-    // cout << *jim_data << "\n";
 
     // Node* result = find(12, root);
     // if (result) {
