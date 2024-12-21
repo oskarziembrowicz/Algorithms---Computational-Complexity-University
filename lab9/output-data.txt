@@ -1,0 +1,6 @@
+zle_calkowanie(2) zle_rozniczkowanie(1) 
+nie_zna_exp(1) 
+zle_calkowanie(1) 
+nie_zna_exp(1) 
+malarz(1) rolnik(2)
+kowal(1) rybak(1)

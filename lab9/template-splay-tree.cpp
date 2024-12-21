@@ -189,7 +189,7 @@ int main() {
 
     peopleTree->printTree();
     cout << "\n";
-
+    
     Person* jim_data = peopleTree->find("Jim");
     cout << *jim_data << "\n";
 

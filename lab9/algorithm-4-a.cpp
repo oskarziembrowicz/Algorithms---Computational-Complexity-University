@@ -99,13 +99,12 @@ private:
                 if (root->left->right) {
                     root->left = rotateLeft(root->left);
                 }
+            }
+            // Here do the second rotation
+            if (root->left) {
+                return rotateRight(root);
             } else {
-                // Here do the second rotation
-                if (root->left) {
-                    return rotateRight(root);
-                } else {
-                    return root;
-                }
+                return root;
             }
         } else {
             // Key is to the right
@@ -123,12 +122,11 @@ private:
                 // The key is double to the right (zag-zag)
                 root->right->right = splay(root->right->right, key);
                 root = rotateLeft(root);
+            }
+            if (root->right) {
+                return rotateLeft(root);
             } else {
-                if (root->right) {
-                    return rotateLeft(root);
-                } else {
-                    return root;
-                }
+                return root;
             }
         }
         return root;
@@ -159,9 +157,9 @@ private:
         return splay(root, key);
     }
 
-    Node* find(Node* root, string key) {
-        return splay(root, key);
-    }
+    // Node* find(Node* root, string key) {
+    //     return splay(root, key);
+    // }
 
     void printTree(Node* currentNode) {
         if (!currentNode) {
@@ -170,6 +168,15 @@ private:
         printTree(currentNode->left);
         cout << currentNode->key << "(" << *currentNode->value << ") ";
         printTree(currentNode->right);
+    }
+
+    void printKeys(Node* currentNode) {
+        if (!currentNode) {
+            return;
+        }
+        printKeys(currentNode->left);
+        cout << currentNode->key << " ";
+        printKeys(currentNode->right);
     }
 
     Node* root;
@@ -184,12 +191,17 @@ public:
     }
 
     T* find(string key) {
-        root = find(root, key);
-        return root->value;
+        root = splay(root, key);
+        // return root->value;
+        return root->key == key ? root->value : NULL;
     }
 
     void printTree() {
         printTree(root);
+    }
+
+    void printKeys() {
+        printKeys(root);
     }
 
     SplayTree operator+(const SplayTree& treeToAdd) {
@@ -200,51 +212,89 @@ public:
 };
 
 int main() {
+    ios_base::sync_with_stdio(false);
+    cout.tie(nullptr);
+    cin.tie(nullptr);
 
-    SplayTree<SplayTree<int>>* professionParentTree = new SplayTree<SplayTree<int>>();
-    SplayTree<SplayTree<int>>* symptomParentTree = new SplayTree<SplayTree<int>>();
+    SplayTree<SplayTree<int>>* professionExternalTree = new SplayTree<SplayTree<int>>();
+    SplayTree<SplayTree<int>>* symptomExternalTree = new SplayTree<SplayTree<int>>();
+    SplayTree<int>* result = new SplayTree<int>();
 
-    
+    /*
     string prof = "rolnik";
     string symptom = "zle_calkowanie";
     SplayTree<int>* symptomInternalTree = new SplayTree<int>();
     symptomInternalTree->insert(symptom, new int(1));
-    professionParentTree->insert(prof, symptomInternalTree);
-    professionParentTree->insert(prof, symptomInternalTree);
+    professionExternalTree->insert(prof, symptomInternalTree);
+    professionExternalTree->insert(prof, symptomInternalTree);
 
     symptom = "zle_rozniczkowanie";
     // delete symptomInternalTree;
     symptomInternalTree = new SplayTree<int>();
     symptomInternalTree->insert(symptom, new int(1));
-    professionParentTree->insert(prof, symptomInternalTree);
+    professionExternalTree->insert(prof, symptomInternalTree);
 
-    professionParentTree->find(prof)->printTree();
+    professionExternalTree->find(prof)->printTree();
+    */
 
 
 
     // THE TASK:
-    /*
     unsigned int numberOfOperations;
+    cin >> numberOfOperations;
+
     for (int i=0; i<numberOfOperations; i++) {
         char operation;
         cin >> operation;
-        fflush(stdin);
         if (operation == 'd') {
             string profession, symptom;
             cin >> profession >> symptom;
+
+
             // Add peasant to database
+            SplayTree<int>* symptomInternalTree = new SplayTree<int>();
+            symptomInternalTree->insert(symptom, new int(1));
+            professionExternalTree->insert(profession, symptomInternalTree);
+            // JUST FOR TESTING
+            // cout << "Drzewo zawodow: ";
+            // professionExternalTree->find(profession)->printTree();
+            // cout << ", ";
+            // professionExternalTree->printKeys();
+            // cout << "\n";
+
+            SplayTree<int>* professionInternalTree = new SplayTree<int>();
+            professionInternalTree->insert(profession, new int(1));
+            symptomExternalTree->insert(symptom, professionInternalTree);
+            // JUST FOR TESTING
+            // cout << "Drzewo symptomow: ";
+            // symptomExternalTree->find(symptom)->printTree();
+            // cout << ", ";
+            // symptomExternalTree->printKeys();
+            // cout << "\n";
 
         } else if (operation == 's') {
             string symptom;
             cin >> symptom;
-            // Write peasants of symptoms
+            // Print peasants of symptoms
+            result = symptomExternalTree->find(symptom);
+            if (result) {
+                result->printTree();
+                cout << "\n";
+            }
         } else if (operation == 'p') {
             string profession;
             cin >> profession;
-            // Write peasants of professions
+            // Print peasants of professions
+            result = professionExternalTree->find(profession);
+            if (result) {
+                result->printTree();
+                cout << "\n";
+            }
         }
     }
-    */
+
+    // professionExternalTree->find("rolnik")->printTree();
+    // cout << "\n";
 
     return 0;
 }

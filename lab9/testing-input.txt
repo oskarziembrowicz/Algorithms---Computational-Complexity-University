@@ -1,0 +1,13 @@
+12
+d rolnik zle_calkowanie
+p rolnik
+d rolnik zle_rozniczkowanie
+p rolnik
+d rolnik zle_calkowanie
+p rolnik
+d rybak  nie_zna_exp
+p rolnik
+d kowal  nie_zna_exp
+p rolnik
+d malarz zle_calkowanie
+p rolnik
